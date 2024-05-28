@@ -5,12 +5,14 @@ import (
 )
 
 type Peer struct {
-	conn net.Conn
+	conn  net.Conn
+	msgCh chan []byte
 }
 
-func NewPeer(conn net.Conn) *Peer {
+func NewPeer(conn net.Conn, msgCh chan []byte) *Peer {
 	return &Peer{
-		conn: conn,
+		conn:  conn,
+		msgCh: msgCh,
 	}
 }
 
