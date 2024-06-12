@@ -40,7 +40,7 @@ func NewServer(cfg Config) *Server {
 		peers:     make(map[*Peer]bool),
 		addPeerCh: make(chan *Peer),
 		quitCh:    make(chan struct{}),
-		msgCh:     make(chan []byte),
+		msgCh:     make(chan Message),
 		kv:        NewKV(),
 	}
 }
@@ -67,7 +67,7 @@ func (s *Server) handleMessage(msg Message) error {
 	case GetCommand:
 		val, ok := s.kv.Get(v.key)
 		if !ok {
-			fmt.Errorf("key not found")
+			return fmt.Errorf("key not found")
 		}
 		_, err := msg.peer.Send(val)
 		if err != nil {
@@ -82,9 +82,9 @@ func (s *Server) handleMessage(msg Message) error {
 func (s *Server) loop() {
 	for {
 		select {
-		case rawMsg := <-s.msgCh:
-			if err := s.handleMessage(rawMsg); err != nil {
-				slog.Error("raw message error", "err", err)
+		case msg := <-s.msgCh:
+			if err := s.handleMessage(msg); err != nil {
+				slog.Error("message error", "err", err)
 			}
 		case <-s.quitCh:
 			return
@@ -133,7 +133,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(val)
+		fmt.Println("get this value from kv storage: ", val)
 	}
 	time.Sleep(time.Second)
 	fmt.Println(server.kv.data)
