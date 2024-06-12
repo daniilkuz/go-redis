@@ -16,13 +16,18 @@ type Config struct {
 	ListenAddr string
 }
 
+type Message struct {
+	data []byte
+	peer *Peer
+}
+
 type Server struct {
 	Config
 	peers     map[*Peer]bool
 	ln        net.Listener
 	addPeerCh chan *Peer
 	quitCh    chan struct{}
-	msgCh     chan []byte
+	msgCh     chan Message
 	kv        *KV
 }
 
@@ -51,14 +56,23 @@ func (s *Server) Start() error {
 	return s.acceptLoop()
 }
 
-func (s *Server) handleRawMessage(rawMsg []byte) error {
-	cmd, err := parseCommand(string(rawMsg))
+func (s *Server) handleMessage(msg Message) error {
+	cmd, err := parseCommand(string(msg.data))
 	if err != nil {
 		return err
 	}
 	switch v := cmd.(type) {
 	case SetCommand:
 		return s.kv.Set(v.key, v.val)
+	case GetCommand:
+		val, ok := s.kv.Get(v.key)
+		if !ok {
+			fmt.Errorf("key not found")
+		}
+		_, err := msg.peer.Send(val)
+		if err != nil {
+			slog.Error("peer send error", "err", err)
+		}
 		// return s.set(v.key, v.val)
 		// slog.Info("someone wants to set a key into the hash table", "key", v.key, "val", v.val)
 	}
@@ -69,7 +83,7 @@ func (s *Server) loop() {
 	for {
 		select {
 		case rawMsg := <-s.msgCh:
-			if err := s.handleRawMessage(rawMsg); err != nil {
+			if err := s.handleMessage(rawMsg); err != nil {
 				slog.Error("raw message error", "err", err)
 			}
 		case <-s.quitCh:
@@ -110,11 +124,16 @@ func main() {
 	}()
 	time.Sleep(time.Second)
 
+	client := client.New("localhost:5001")
 	for i := 0; i < 10; i++ {
-		client := client.New("localhost:5001")
 		if err := client.Set(context.TODO(), fmt.Sprint(i), "bar"); err != nil {
 			log.Fatal(err)
 		}
+		val, err := client.Get(context.TODO(), fmt.Sprint(i))
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(val)
 	}
 	time.Sleep(time.Second)
 	fmt.Println(server.kv.data)

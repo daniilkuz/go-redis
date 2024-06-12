@@ -16,6 +16,10 @@ func NewPeer(conn net.Conn, msgCh chan []byte) *Peer {
 	}
 }
 
+func (p *Peer) Send(msg []byte) (int, error) {
+	return p.conn.Write(msg)
+}
+
 func (p *Peer) readLoop() error {
 	buf := make([]byte, 1024)
 	for {

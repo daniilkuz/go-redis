@@ -11,6 +11,7 @@ import (
 
 const (
 	CommandSET = "SET"
+	CommandGET = "GET"
 )
 
 type Command interface {
@@ -18,6 +19,10 @@ type Command interface {
 
 type SetCommand struct {
 	key, val []byte
+}
+
+type GetCommand struct {
+	key []byte
 }
 
 func parseCommand(raw string) (Command, error) {
@@ -40,6 +45,14 @@ func parseCommand(raw string) (Command, error) {
 					cmd := SetCommand{
 						key: v.Array()[1].Bytes(),
 						val: v.Array()[2].Bytes(),
+					}
+					return cmd, nil
+				case CommandGET:
+					if len(v.Array()) != 2 {
+						return nil, fmt.Errorf("invalid number of variables for GET command")
+					}
+					cmd := GetCommand{
+						key: v.Array()[1].Bytes(),
 					}
 					return cmd, nil
 				default:
