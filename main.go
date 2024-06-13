@@ -124,9 +124,12 @@ func main() {
 	}()
 	time.Sleep(time.Second)
 
-	client := client.New("localhost:5001")
+	client, err := client.New("localhost:5001")
+	if err != nil {
+		log.Fatal(err)
+	}
 	for i := 0; i < 10; i++ {
-		if err := client.Set(context.TODO(), fmt.Sprint(i), "bar"); err != nil {
+		if err := client.Set(context.TODO(), fmt.Sprint(i), fmt.Sprintf("bar %d", i)); err != nil {
 			log.Fatal(err)
 		}
 		val, err := client.Get(context.TODO(), fmt.Sprint(i))
