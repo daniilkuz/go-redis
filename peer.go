@@ -54,6 +54,9 @@ func (p *Peer) readLoop() error {
 					cmd := GetCommand{
 						key: v.Array()[1].Bytes(),
 					}
+					p.msgCh <- Message{
+						cmd: cmd,
+					}
 					fmt.Printf("got GET cmd %+v\n", cmd)
 				}
 			}
