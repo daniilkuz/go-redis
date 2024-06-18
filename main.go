@@ -133,6 +133,7 @@ func main() {
 		if err := client.Set(context.TODO(), fmt.Sprint(i), fmt.Sprintf("bar %d", i)); err != nil {
 			log.Fatal(err)
 		}
+		time.Sleep(time.Millisecond)
 		val, err := client.Get(context.TODO(), fmt.Sprint(i))
 		if err != nil {
 			log.Fatal(err)
