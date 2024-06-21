@@ -1,11 +1,11 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"log/slog"
 	"net"
-	"time"
 )
 
 const defaultListenAddr = ":5001"
@@ -51,7 +51,7 @@ func (s *Server) Start() error {
 	}
 	s.ln = ln
 	go s.loop()
-	slog.Info("server running", "listenAddr", s.ListenAddr)
+	slog.Info("goredis server running", "listenAddr", s.ListenAddr)
 	return s.acceptLoop()
 }
 
@@ -117,10 +117,13 @@ func (s *Server) handleConn(conn net.Conn) {
 }
 
 func main() {
-	server := NewServer(Config{})
-	go func() {
-		log.Fatal(server.Start())
-	}()
-	time.Sleep(time.Second)
+	listenAddr := flag.String("listenAddr", defaultListenAddr, "listen address of the goredis server")
+	flag.Parse()
+	server := NewServer(Config{
+		ListenAddr: *listenAddr,
+	})
+	log.Fatal(server.Start())
+
+	// fmt.Println(server.kv.data)
 
 }

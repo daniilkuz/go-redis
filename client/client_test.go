@@ -10,7 +10,7 @@ import (
 
 func TestNewClient(t *testing.T) {
 
-	client, err := client.New("localhost:5001")
+	client, err := New("localhost:5001")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,5 +27,4 @@ func TestNewClient(t *testing.T) {
 		fmt.Println("GET => ", val)
 	}
 	time.Sleep(time.Second)
-	fmt.Println(server.kv.data)
 }
