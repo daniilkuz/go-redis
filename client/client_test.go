@@ -6,18 +6,9 @@ import (
 	"log"
 	"testing"
 	"time"
-
-	"github.com/go-redis/redis/v8"
 )
 
 func TestNewClient2(t *testing.T) {
-
-	ctx := context.Background()
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
 
 	client, err := New("localhost:5001")
 	if err != nil {
