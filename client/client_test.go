@@ -22,7 +22,7 @@ func TestNewClient2(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("GET => ", val)
+	// fmt.Println("GET => ", val)
 
 }
 
