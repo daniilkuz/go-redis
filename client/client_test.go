@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"sync"
 	"testing"
 	"time"
 )
@@ -11,6 +12,8 @@ import (
 func TestNewClients(t *testing.T) {
 
 	nClients := 10
+	wg := sync.WaitGroup{}
+	wg.Add(nClients)
 	for i := 0; i < nClients; i++ {
 		go func(it int) {
 			client, err := New("localhost:5001")
@@ -29,6 +32,7 @@ func TestNewClients(t *testing.T) {
 				log.Fatal(err)
 			}
 			fmt.Printf("client %d got back  => %s", it, val)
+			wg.Done()
 		}(i)
 	}
 
