@@ -35,7 +35,7 @@ func TestNewClients(t *testing.T) {
 			wg.Done()
 		}(i)
 	}
-
+	wg.Wait()
 }
 
 func TestNewClient(t *testing.T) {
