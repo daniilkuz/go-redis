@@ -38,7 +38,7 @@ func TestServerWithMultiClients(t *testing.T) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Printf("client %d got back  => %s\n", it, val)
+			// fmt.Printf("client %d got back  => %s\n", it, val)
 			wg.Done()
 		}(i)
 	}
