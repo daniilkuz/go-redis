@@ -25,6 +25,7 @@ type Server struct {
 	peers     map[*Peer]bool
 	ln        net.Listener
 	addPeerCh chan *Peer
+	delPeerCh chan *Peer
 	quitCh    chan struct{}
 	msgCh     chan Message
 	kv        *KV
@@ -38,6 +39,7 @@ func NewServer(cfg Config) *Server {
 		Config:    cfg,
 		peers:     make(map[*Peer]bool),
 		addPeerCh: make(chan *Peer),
+		delPeerCh: make(chan *Peer),
 		quitCh:    make(chan struct{}),
 		msgCh:     make(chan Message),
 		kv:        NewKV(),
@@ -92,6 +94,8 @@ func (s *Server) loop() {
 			s.peers[peer] = true
 			// default:
 			// 	fmt.Println("foo")
+		case peer := <-s.delPeerCh:
+			delete(s.peers, peer)
 		}
 
 	}
