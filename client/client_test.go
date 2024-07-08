@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+func TestNewClientRedisClient(t *testing.T) {
+
+}
+
 func TestNewClient(t *testing.T) {
 
 	client, err := New("localhost:5001")
