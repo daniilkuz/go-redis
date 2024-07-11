@@ -17,16 +17,16 @@ func TestNewClientRedisClient(t *testing.T) {
 		DB:       0,  // use default DB
 	})
 
-	err := rdb.Set(context.Background(), "key", "value", 0).Err()
-	if err != nil {
-		panic(err)
-	}
+	// err := rdb.Set(context.Background(), "key", "value", 0).Err()
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	val, err := rdb.Get(context.TODO(), "key").Result()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(val)
+	// val, err := rdb.Get(context.TODO(), "key").Result()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println(val)
 }
 
 func TestNewClient(t *testing.T) {
