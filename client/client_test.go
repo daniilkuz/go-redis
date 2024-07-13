@@ -1,6 +1,7 @@
 package client
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
@@ -8,7 +9,13 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/tidwall/resp"
 )
+
+func TestFooBar(t *testing.T) {
+	buf := &bytes.Buffer{}
+	rw := resp.NewWriter(buf)
+}
 
 func TestNewClientRedisClient(t *testing.T) {
 	rdb := redis.NewClient(&redis.Options{
