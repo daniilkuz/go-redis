@@ -66,6 +66,8 @@ func (p *Peer) readLoop() error {
 						peer: p,
 					}
 					// fmt.Printf("got GET cmd %+v\n", cmd)
+				default:
+					fmt.Println(v.Array())
 				}
 			}
 		}
