@@ -62,3 +62,7 @@ func parseCommand(raw string) (Command, error) {
 	}
 	return nil, fmt.Errorf("invalid or unknown command received: %s", raw)
 }
+
+func writeRespMap(m map[string]string) string {
+	return ""
+}
