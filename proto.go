@@ -64,5 +64,7 @@ func parseCommand(raw string) (Command, error) {
 }
 
 func writeRespMap(m map[string]string) string {
+	buf := bytes.Buffer{}
+	buf.WriteString(fmt.Sprint("%"+"%d\r\n", len(m)))
 	return ""
 }
