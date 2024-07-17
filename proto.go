@@ -63,8 +63,12 @@ func parseCommand(raw string) (Command, error) {
 	return nil, fmt.Errorf("invalid or unknown command received: %s", raw)
 }
 
-func writeRespMap(m map[string]string) string {
+func respWritepMap(m map[string]string) string {
 	buf := bytes.Buffer{}
-	buf.WriteString(fmt.Sprint("%"+"%d\r\n", len(m)))
-	return ""
+	buf.WriteString("%" + fmt.Sprint("%d\r\n", len(m)))
+	for k, v := range m {
+		buf.WriteString(fmt.Sprint("+%s\r\n", k))
+		buf.WriteString(fmt.Sprint(":%s\r\n", v))
+	}
+	return buf.String()
 }
