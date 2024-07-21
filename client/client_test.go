@@ -19,10 +19,10 @@ func TestNewClientRedisClient(t *testing.T) {
 	fmt.Println(rdb)
 	fmt.Println("this is working")
 
-	// err := rdb.Set(context.Background(), "key", "value", 0).Err()
-	// if err != nil {
-	// 	panic(err)
-	// }
+	err := rdb.Set(context.Background(), "key", "value", 0).Err()
+	if err != nil {
+		panic(err)
+	}
 
 	// val, err := rdb.Get(context.TODO(), "key").Result()
 	// if err != nil {

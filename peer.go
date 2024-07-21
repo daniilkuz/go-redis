@@ -67,7 +67,7 @@ func (p *Peer) readLoop() error {
 					}
 				default:
 					// fmt.Println(v.Array())
-					panic("this command is not being handled")
+					// panic("this command is not being handled")
 				}
 				p.msgCh <- Message{
 					cmd:  cmd,
