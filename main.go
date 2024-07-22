@@ -77,6 +77,14 @@ func (s *Server) handleMessage(msg Message) error {
 		// return s.set(v.key, v.val)
 		// slog.Info("someone wants to set a key into the hash table", "key", v.key, "val", v.val)
 	case HelloCommand:
+		spec := map[string]string{
+			"server": "redis",
+			"role":   "redis",
+		}
+		_, err := msg.peer.Send(respWriteMap(spec))
+		if err != nil {
+			slog.Error("peer send error", "err", err)
+		}
 		fmt.Println("This is the hello command from the client")
 	}
 	return nil

@@ -69,12 +69,12 @@ type GetCommand struct {
 // 	return nil, fmt.Errorf("invalid or unknown command received: %s", raw)
 // }
 
-func respWriteMap(m map[string]string) string {
+func respWriteMap(m map[string]string) []byte {
 	buf := bytes.Buffer{}
 	buf.WriteString("%" + fmt.Sprintf("%d\r\n", len(m)))
 	for k, v := range m {
 		buf.WriteString(fmt.Sprintf("+%s\r\n", k))
 		buf.WriteString(fmt.Sprintf(":%s\r\n", v))
 	}
-	return buf.String()
+	return buf.Bytes()
 }
