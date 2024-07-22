@@ -79,7 +79,7 @@ func (s *Server) handleMessage(msg Message) error {
 	case HelloCommand:
 		spec := map[string]string{
 			"server": "redis",
-			"role":   "redis",
+			"role":   "master",
 		}
 		_, err := msg.peer.Send(respWriteMap(spec))
 		if err != nil {
