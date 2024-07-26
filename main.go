@@ -6,6 +6,7 @@ import (
 	"log"
 	"log/slog"
 	"net"
+	"reflect"
 )
 
 const defaultListenAddr = ":5001"
@@ -62,6 +63,7 @@ func (s *Server) handleMessage(msg Message) error {
 	// if err != nil {
 	// 	return err
 	// }
+	slog.Info("got message from client", "type", reflect.TypeOf(msg.cmd))
 	switch v := msg.cmd.(type) {
 	case SetCommand:
 		if err := s.kv.Set(v.key, v.val); err != nil {
