@@ -66,6 +66,7 @@ func (p *Peer) readLoop() error {
 						value: v.Array()[1].String(),
 					}
 				default:
+					fmt.Printf("got unknown command=>%+v", v.Array())
 					// fmt.Println(v.Array())
 					// panic("this command is not being handled")
 				}
