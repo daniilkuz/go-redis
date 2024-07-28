@@ -86,6 +86,7 @@ func (s *Server) handleMessage(msg Message) error {
 		// return s.set(v.key, v.val)
 		// slog.Info("someone wants to set a key into the hash table", "key", v.key, "val", v.val)
 	case HelloCommand:
+		fmt.Println("hello handled on server")
 		spec := map[string]string{
 			"server": "redis",
 			"role":   "master",

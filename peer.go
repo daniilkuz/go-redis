@@ -40,6 +40,7 @@ func (p *Peer) readLoop() error {
 		}
 		if v.Type() == resp.Array {
 			for _, value := range v.Array() {
+				fmt.Printf("this command => %v\n", value)
 				var cmd Command
 				switch value.String() {
 				case CommandSET:
@@ -66,7 +67,7 @@ func (p *Peer) readLoop() error {
 						value: v.Array()[1].String(),
 					}
 				default:
-					fmt.Printf("got unknown command=>%+v", v.Array())
+					fmt.Printf("got unknown command=>%+v\n", v.Array())
 					// fmt.Println(v.Array())
 					// panic("this command is not being handled")
 				}
