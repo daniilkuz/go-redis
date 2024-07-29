@@ -20,11 +20,11 @@ func TestFooBar(t *testing.T) {
 	fmt.Println(buf.String())
 
 	in := map[string]string{
-		"first":  "1",
-		"second": "2",
+		"server":  "redis",
+		"version": "6.0",
 	}
 	out := respWriteMap(in)
-	fmt.Println(out)
+	fmt.Println(string(out))
 }
 
 func TestServerWithMultiClients(t *testing.T) {
