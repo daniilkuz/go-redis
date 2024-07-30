@@ -88,8 +88,11 @@ func (s *Server) handleMessage(msg Message) error {
 	case HelloCommand:
 		fmt.Println("hello handled on server")
 		spec := map[string]string{
-			"server": "redis",
-			"role":   "master",
+			"server":  "redis",
+			"version": "6.0.0",
+			"proto":   "3",
+			"mode":    "standalone",
+			"role":    "master",
 		}
 		_, err := msg.peer.Send(respWriteMap(spec))
 		if err != nil {
