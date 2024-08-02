@@ -17,7 +17,7 @@ func TestNewClientRedisClient(t *testing.T) {
 		DB:       0,  // use default DB
 	})
 	fmt.Println(rdb)
-	fmt.Println("this is working")
+	fmt.Println("this is working :)")
 
 	err := rdb.Set(context.Background(), "key", "value", 0).Err()
 	if err != nil {
