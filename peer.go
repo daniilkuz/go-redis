@@ -44,13 +44,21 @@ func (p *Peer) readLoop() error {
 			rawCmd := v.Array()[0]
 			switch rawCmd.String() {
 			case CommandGET:
-
+				cmd = GetCommand{
+					key: v.Array()[1].Bytes(),
+				}
 			case CommandSET:
+				cmd = SetCommand{
+					key: v.Array()[1].Bytes(),
+					val: v.Array()[2].Bytes(),
+				}
 
 			case CommandHELLO:
 				cmd = HelloCommand{
 					value: v.Array()[1].String(),
 				}
+			default:
+				fmt.Println("got this unhandled command", rawCmd)
 			}
 			p.msgCh <- Message{
 				cmd:  cmd,
