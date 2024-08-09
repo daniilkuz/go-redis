@@ -64,7 +64,7 @@ func (p *Peer) readLoop() error {
 				cmd:  cmd,
 				peer: p,
 			}
-			// fmt.Println("this is cmd", v.Array()[0])
+			fmt.Println("this is cmd", v.Array()[0])
 		}
 	}
 	return nil
