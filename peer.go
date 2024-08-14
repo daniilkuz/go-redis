@@ -43,6 +43,10 @@ func (p *Peer) readLoop() error {
 		if v.Type() == resp.Array {
 			rawCmd := v.Array()[0]
 			switch rawCmd.String() {
+			case CommandCLIENT:
+				cmd = ClientCommand{
+					value: v.Array()[1].String(),
+				}
 			case CommandGET:
 				cmd = GetCommand{
 					key: v.Array()[1].Bytes(),
