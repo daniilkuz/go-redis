@@ -65,6 +65,8 @@ func (s *Server) handleMessage(msg Message) error {
 	// }
 	slog.Info("got message from client", "type", reflect.TypeOf(msg.cmd))
 	switch v := msg.cmd.(type) {
+	case ClientCommand:
+		fmt.Println(v.value)
 	case SetCommand:
 		if err := s.kv.Set(v.key, v.val); err != nil {
 			return err
