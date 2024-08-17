@@ -88,11 +88,17 @@ func (s *Server) handleMessage(msg Message) error {
 		if !ok {
 			return fmt.Errorf("key not found")
 		}
-		_, err := msg.peer.Send(val)
-		if err != nil {
-			// slog.Error("peer send error", "err", err)
-			return fmt.Errorf("peer send error: %s", err)
+
+		if err := resp.
+			NewWriter(msg.peer.conn).
+			WriteString(string(val)); err != nil {
+			return err
 		}
+		// _, err := msg.peer.Send(val)
+		// if err != nil {
+		// 	// slog.Error("peer send error", "err", err)
+		// 	return fmt.Errorf("peer send error: %s", err)
+		// }
 		// return s.set(v.key, v.val)
 		// slog.Info("someone wants to set a key into the hash table", "key", v.key, "val", v.val)
 	case HelloCommand:

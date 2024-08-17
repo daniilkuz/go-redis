@@ -10,7 +10,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func TestNewClientRedisClient(t *testing.T) {
+func TestOfficialRedisClient(t *testing.T) {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:5001",
 		Password: "", // no password set
@@ -19,13 +19,18 @@ func TestNewClientRedisClient(t *testing.T) {
 	// fmt.Println(rdb)
 	// fmt.Println("this is working :)")
 
-	err := rdb.Set(context.Background(), "key", "value", 0).Err()
+	err := rdb.Set(context.Background(), "foo", "bar", 0).Err()
 	if err != nil {
 		// panic(err)
 		t.Fatal(err)
 	}
 
-	fmt.Println("wer are here, ha!!!")
+	val, err := rdb.Get(context.Background(), "foo").Result()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fmt.Printf("got this value %v\n", val)
 
 	// val, err := rdb.Get(context.TODO(), "key").Result()
 	// if err != nil {
